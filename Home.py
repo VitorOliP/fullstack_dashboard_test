@@ -53,7 +53,7 @@ with cols[1]:
     st.markdown("""
     - **Streamlit**  
     - **Plotly Express**  
-    - **Pandas**  
+    - **Streamlit Extras**  
     - **Dotenv (Configuração de variáveis)**
     """)
 
@@ -61,7 +61,7 @@ with cols[2]:
     st.markdown("""
     - **Docker**  
     - **Alembic (migrações)**  
-    - **NumPy**  
+    - **Pandas / NumPy**  
     - **Requests (integração API)**
     """)
 
@@ -73,5 +73,5 @@ Os gráficos e métricas serão atualizados automaticamente conforme sua seleç�
 
 st.markdown("""
 ---
-*Projeto desenvolvido com foco em visualização educacional e integração entre dados e APIs.*
+*Projeto desenvolvido com foco em visualização educacional e integração entre dados e APIs modernas.*
 """)

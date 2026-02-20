@@ -35,47 +35,47 @@ with st.sidebar:
 
 
 # FUNÇÕES PARA CONSULTAR API
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=1800)
 def get_medias_regiao(regiao):
     response = requests.get(f"{API_BASE_URL}/regioes/medias/regiao/{regiao}")
     return response.json() if response.status_code == 200 else None
 
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=1800)
 def get_distribuicao_regiao(regiao):
     response = requests.get(f"{API_BASE_URL}/regioes/distribuicao/regiao/{regiao}")
     return response.json() if response.status_code == 200 else None
 
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=1800)
 def get_status_redacao(regiao):
     response = requests.get(f"{API_BASE_URL}/regioes/status_redacao/regiao/{regiao}")
     return response.json() if response.status_code == 200 else None
 
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=1800)
 def get_distribuicao_sexo(regiao):
     response = requests.get(f"{API_BASE_URL}/regioes/distribuicao-sexo/regiao/{regiao}")
     return response.json() if response.status_code == 200 else None
 
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=1800)
 def get_distribuicao_faixa(regiao):
     response = requests.get(f"{API_BASE_URL}/regioes/distribuicao-faixa-etaria/regiao/{regiao}")
     return response.json() if response.status_code == 200 else None
 
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=1800)
 def get_distribuicao_raca(regiao):
     response = requests.get(f"{API_BASE_URL}/regioes/distribuicao_raca/regiao/{regiao}")
     return response.json() if response.status_code == 200 else None
 
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=1800)
 def get_ausencia_renda(regiao):
     response = requests.get(f"{API_BASE_URL}/regioes/distribuicao_ausencia_renda/regiao/{regiao}")
     return response.json() if response.status_code == 200 else None
 
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=1800)
 def get_ausencia_faixa_etaria(regiao):
     response = requests.get(f"{API_BASE_URL}/regioes/distribuicao_ausencia_faixa_etaria/regiao/{regiao}")
     return response.json() if response.status_code == 200 else None
 
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=1800)
 def get_ausencia_raca(regiao):
     response = requests.get(f"{API_BASE_URL}/regioes/distribuicao_ausencia_raca/regiao/{regiao}")
     return response.json() if response.status_code == 200 else None
@@ -104,7 +104,7 @@ else:
     col3.metric("Linguagens e Códigos", f"{medias['media_lc']}")
     col4.metric("Matemática", f"{medias['media_mt']}")
     col5.metric("Redação", f"{medias['media_redacao']}")
-    style_metric_cards(border_left_color="#ff6200", border_color="#6B6B6B", background_color="#FFFFFF")
+    style_metric_cards(border_left_color="#2596be", border_color="#6B6B6B", background_color="#FFFFFF")
 
     st.divider()
 
@@ -120,7 +120,7 @@ else:
         nbins=30,
         title=competencia,
         labels={nota_col: "Nota"},
-        color_discrete_sequence=['#000d3c']
+        color_discrete_sequence=['#75df3f']
     )
     fig.update_layout(
         bargap=0.1,
@@ -150,7 +150,7 @@ else:
                 y="status",
                 orientation='h',
                 title=f"Status das Redações",
-                color_discrete_sequence=["#ff6200"]
+                color_discrete_sequence=["#2596be"]
             )
 
             fig.update_layout(
@@ -177,7 +177,7 @@ else:
     if sexo:
         df_sexo = pd.DataFrame(sexo)
         fig1 = px.pie(df_sexo, values="total", names="sexo", title="Distribuição por Sexo",
-                      color_discrete_sequence=["#ff6200", "#000d3c"])
+                      color_discrete_sequence=["#2596be", "#75df3f"])
         col1.plotly_chart(fig1, use_container_width=True)
     else:
         col1.warning("Sem dados de sexo disponíveis.")
@@ -185,7 +185,7 @@ else:
     if faixa:
         df_faixa = pd.DataFrame(faixa)
         fig2 = px.bar(df_faixa, x="faixa_etaria", y="total", title="Distribuição por Faixa Etária",
-                      color_discrete_sequence=["#000d3c"])
+                      color_discrete_sequence=["#75df3f"])
         fig2.update_layout(
             xaxis_title="Faixa Etária",
             yaxis_title="Total",
@@ -205,7 +205,7 @@ else:
         df_raca = df_raca.sort_values(by="total", ascending=True)
 
         fig3 = px.bar(df_raca, x="raca", y="total", title=f"Distribuição por Etnia",
-        color_discrete_sequence=["#ff6200"]
+        color_discrete_sequence=["#2596be"]
     )
 
         fig3.update_layout(
@@ -243,8 +243,8 @@ else:
         )
         
         fig.update_traces(
-        line=dict(color="#ff6200", width=3),
-        marker=dict(color="#ff6200"),
+        line=dict(color="#2596be", width=3),
+        marker=dict(color="#2596be"),
         texttemplate="%{text:.1f}%",
         textposition="top center"
         )
@@ -280,7 +280,11 @@ else:
             title="Percentual de Ausência por Faixa Etária",
             labels={"faixa_etaria": "Faixa Etária", "percentual_ausentes": "% de Ausentes"},
             color="percentual_ausentes",
-            color_continuous_scale="Oranges"
+            color_continuous_scale=[
+        (0.0, "#ffffff"),   # branco (mínimo)
+        (0.5, "#75df3f"),   # sua cor base
+        (1.0, "#2b7e1d")    # verde mais escuro (máximo)
+    ]
         )
 
         fig1.update_traces(
@@ -315,7 +319,11 @@ else:
             labels={"raca": "Raça", "percentual_ausentes": "% de Ausentes"},
             orientation='h',
             color="percentual_ausentes",
-            color_continuous_scale="Oranges"
+            color_continuous_scale=[
+        (0.0, "#ffffff"),   # branco (mínimo)
+        (0.5, "#75df3f"),   # sua cor base
+        (1.0, "#2b7e1d")    # verde mais escuro (máximo)
+    ]
         )
 
         fig2.update_traces(
